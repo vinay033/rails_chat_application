@@ -3,8 +3,12 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Rails Devise" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Rails Devise" %>">
+    <!-- <meta name="description" content="<%#= content_for?(:description) ? yield(:description) : "Rails Devise" %>"> -->
+    <meta content='<%= user_signed_in? ? current_user.id : "" %>' name='user-id'/>
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
+    <%= javascript_include_tag "private_pub" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
@@ -16,5 +20,14 @@
        <%= render 'layouts/messages' %>
        <%= yield %>
     </main>
+    <script type="text/javascript">
+      PrivatePub.sign({
+        channel: "/messages/new",
+        timestamp: 1302306682972,
+        signature: "dc1c71d3e959ebb6f49aa6af0c86304a0740088d",
+        server: "http://localhost:9292/faye"
+      });
+    </script>
+    <audio id="chatAudio"><source src="/sounds/notification.mp3" type="audio/mpeg"></audio>
   </body>
 </html>
